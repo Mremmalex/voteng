@@ -16,6 +16,7 @@ model User {
   id        Int      @id @default(autoincrement())
   fullname  String
   email     String   @unique
+  pvc       String   @unique
   password  String
   role      Role     @default(USER)
   votes     Vote[]
@@ -29,9 +30,13 @@ model Vote {
   voterId      Int
   contestant   Contestant @relation(fields: [contestantId], references: [id])
   contestantId Int
+  // category     Category   @relation(fields: [categoryId], references: [id])
+  // categoryId   Int
   createdAt    DateTime
   updatedAt    DateTime   @updatedAt
 
+  Category   Category? @relation(fields: [categoryId], references: [id])
+  categoryId Int?
 }
 
 model Contestant {
@@ -52,6 +57,7 @@ model Category {
   contestants Contestant[]
   createdAt   DateTime
   updatedAt   DateTime     @updatedAt
+  Vote        Vote[]
 }
 
 enum Role {

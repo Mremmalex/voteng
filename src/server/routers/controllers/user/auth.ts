@@ -1,14 +1,19 @@
-import { createRouter } from "../createRouter";
+import { createRouter } from "../../../createRouter";
 import { z } from "zod";
 import { Prisma } from "@prisma/client";
 import { prisma } from "@/server/prisma";
 import { TRPCError } from "@trpc/server";
 import argon2 from "argon2";
+import { resolve } from "path";
+import { signJwtToken } from "@/utils/jwtToken";
+import { TRUE } from "sass";
 
 const defaultUserSelect = Prisma.validator<Prisma.UserSelect>()({
 	id: true,
 	fullname: true,
 	email: true,
+	pvc: true,
+	role: true,
 	password: true,
 	createdAt: true,
 	updatedAt: true,
@@ -53,4 +58,43 @@ export const authRouter = createRouter()
 			};
 		},
 	})
-	.query("login", {});
+	.query("login", {
+		input: z.object({
+			email: z.string().email(),
+			password: z.string(),
+		}),
+		async resolve({ ctx, input }) {
+			const user = await prisma.user.findUnique({
+				where: { email: input.email },
+			});
+			// check if user exists
+			if (!user) {
+				throw new TRPCError({
+					code: "BAD_REQUEST",
+					message: "user with details does not exist",
+				});
+			}
+			// compare password
+			const isValid = await argon2.verify(user.password, input.password);
+			if (!isValid) {
+				throw new TRPCError({
+					code: "BAD_REQUEST",
+					message: "Incorrect Passowrd",
+				});
+			}
+			const userData = {
+				id: user.id,
+				fullname: user.fullname,
+				email: user.email,
+			};
+			// create token
+			const { token, refreshToken } = signJwtToken(userData);
+
+			ctx.res.setHeader("Set-Cookie", refreshToken);
+			return {
+				message: "login successful",
+				token,
+				refreshToken,
+			};
+		},
+	});
