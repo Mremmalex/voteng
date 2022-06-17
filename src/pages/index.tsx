@@ -22,7 +22,7 @@ const Home: NextPage = () => {
 		});
 
 		if (registerMutation.isSuccess) {
-			router.push("/generate/pvc");
+			return router.push("/generate/pvc");
 		}
 	};
 

@@ -58,14 +58,14 @@ export const authRouter = createRouter()
 			};
 		},
 	})
-	.query("login", {
+	.mutation("login", {
 		input: z.object({
-			email: z.string().email(),
+			pvc: z.string(),
 			password: z.string(),
 		}),
 		async resolve({ ctx, input }) {
 			const user = await prisma.user.findUnique({
-				where: { email: input.email },
+				where: { pvc: input.pvc },
 			});
 			// check if user exists
 			if (!user) {

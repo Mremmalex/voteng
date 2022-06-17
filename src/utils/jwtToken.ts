@@ -7,18 +7,18 @@ type User = {
 };
 
 const signJwtToken = (user: User) => {
-	const token = jwt.sign({ user }, process.env.JWT_SECRET, {
+	const token = jwt.sign({ user }, process.env.JWT_SECRET as string, {
 		expiresIn: "3d",
 	});
 
-	const refreshToken = jwt.sign({ user }, process.env.JWT_SECRET, {
+	const refreshToken = jwt.sign({ user }, process.env.JWT_SECRET as string, {
 		expiresIn: "7d",
 	});
 	return { token, refreshToken };
 };
 
 const verifyJwtToken = (token: string) => {
-	return jwt.verify(token, process.env.JWT_SECRET);
+	return jwt.verify(token, process.env.JWT_SECRET as string);
 };
 
 export { signJwtToken, verifyJwtToken };

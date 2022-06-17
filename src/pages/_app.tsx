@@ -3,6 +3,7 @@ import Layout from "@/components/Layout";
 import "@/styles/app.scss";
 import { withTRPC } from "@trpc/next";
 import { AppRouter } from "@/server/routers/_app";
+import superjson from "superjson";
 
 function MyApp({ Component, pageProps }: AppProps) {
 	return (
@@ -20,6 +21,7 @@ export default withTRPC<AppRouter>({
 
 		return {
 			url,
+			transformer: superjson,
 		};
 	},
 	ssr: true,
