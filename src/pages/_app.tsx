@@ -15,8 +15,8 @@ function MyApp({ Component, pageProps }: AppProps) {
 
 export default withTRPC<AppRouter>({
 	config({ ctx }) {
-		const url = process.env.NETLIFY_URL
-			? `https://${process.env.NETLIFY_URL}/api/trpc`
+		const url = process.env.NEXT_PUBLIC_NETLIFY_URL
+			? `https://${process.env.NEXT_PUBLIC_NETLIFY_URL}/api/trpc`
 			: "http://localhost:3000/api/trpc";
 
 		return {
