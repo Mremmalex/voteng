@@ -16,7 +16,7 @@ model User {
   id        Int      @id @default(autoincrement())
   fullname  String
   email     String   @unique
-  pvc       String   @unique
+  pvc       String   @unique @default("")
   password  String
   role      Role     @default(USER)
   votes     Vote[]

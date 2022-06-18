@@ -16,3 +16,14 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
 
+## data base config
+you can get a database from [plantescale](https://plantscale.com)
+set the url in your .env file  as
+```bash
+ DATABASE_URL=database string here 
+``` 
+#### DATABASE run migration 
+```bash 
+npx prisma db push 
+`` `
+
