@@ -1,6 +1,6 @@
 import Head from "next/head";
 import Image from "next/image";
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import type { NextPage } from "next";
 import { trpc } from "@/utils/trpc";
 import { useRouter } from "next/router";
@@ -14,7 +14,8 @@ const Home: NextPage = () => {
 
 	const registerMutation = trpc.useMutation(["auth/register"]);
 
-	const handleSubmit = () => {
+	const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+		e.preventDefault();
 		registerMutation.mutate({
 			fullname,
 			email,
@@ -42,11 +43,11 @@ const Home: NextPage = () => {
 					<div className=" w-full md:w-[22em]">
 						<h3 className="text-center text-white font-bold pt-3">register</h3>
 						{registerMutation.error && (
-							<div className="bg-red text-white px-4 py-4">
+							<div className=" text-red-600 px-4 py-4">
 								{registerMutation.error?.message}
 							</div>
 						)}
-						<form>
+						<form onSubmit={handleSubmit}>
 							<div className=" py-5 px-4">
 								<div className="flex flex-col">
 									<label htmlFor="fullname">Fullname</label>
@@ -85,7 +86,7 @@ const Home: NextPage = () => {
 								</div>
 								<div className="mt-5 float-right">
 									<button
-										onClick={handleSubmit}
+										type="submit"
 										className="bg-green-900 text-white rounded-md block px-10 py-3 hover:font-bold transition-all duration-300">
 										{registerMutation.isLoading ? "processing...." : "register"}
 									</button>

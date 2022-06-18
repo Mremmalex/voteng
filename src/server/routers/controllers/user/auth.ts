@@ -22,7 +22,8 @@ const defaultUserSelect = Prisma.validator<Prisma.UserSelect>()({
 export const authRouter = createRouter()
 	.mutation("register", {
 		input: z.object({
-			fullname: z.string(),
+			fullname: z.string({ required_error: "fullname is required" }),
+			pvc: z.string().optional(),
 			email: z
 				.string({ required_error: "email is required" })
 				.email("Email must be a valid email address"),
@@ -45,7 +46,7 @@ export const authRouter = createRouter()
 			const user = await prisma.user.create({
 				data: {
 					fullname: input.fullname,
-					pvc: "",
+					pvc: input.pvc!,
 					email: input.email,
 					password: hashedPw,
 				},
@@ -56,6 +57,11 @@ export const authRouter = createRouter()
 				message: "user created",
 				status: "success",
 				statusCode: 200,
+				user: {
+					id: user.id,
+					fullname: user.fullname,
+					email: user.email,
+				},
 			};
 		},
 	})
