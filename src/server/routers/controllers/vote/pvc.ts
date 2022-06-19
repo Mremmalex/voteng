@@ -1,14 +1,12 @@
 import { createRouter } from "@/server/createRouter";
 import { string, z } from "zod";
-import nanoid from "nanoid";
+import { customAlphabet } from "nanoid";
 import { Prisma } from "@prisma/client";
 import { prisma } from "@/server/prisma";
 import { TRPCError } from "@trpc/server";
+import argon2 from "argon2";
 
-const pvcNumber = nanoid.customAlphabet(
-	"1234567890AFBCDEFGHIJKLMNOPQRSTUVWXYZ",
-	10
-);
+const pvcNumber = customAlphabet("1234567890AFBCDEFGHIJKLMNOPQRSTUVWXYZ", 10);
 
 const defaultUserSelect = Prisma.validator<Prisma.UserSelect>()({
 	id: true,
@@ -21,12 +19,13 @@ const defaultUserSelect = Prisma.validator<Prisma.UserSelect>()({
 	updatedAt: true,
 });
 
-export const generatePvc = createRouter().query("pvc", {
+export const generatePvc = createRouter().mutation("generate", {
 	input: z.object({
 		email: z.string().email(),
+		password: z.string().min(8).max(64),
 	}),
 	async resolve({ input }) {
-		const user = prisma.user.findUnique({
+		const user = await prisma.user.findUnique({
 			where: {
 				email: input.email,
 			},
@@ -36,10 +35,17 @@ export const generatePvc = createRouter().query("pvc", {
 		if (!user) {
 			throw new TRPCError({
 				code: "BAD_REQUEST",
-				message: "user not found",
+				message: "user with email does not exist",
 			});
 		}
-		const pvcdata = await prisma.user.update({
+		const isValid = await argon2.verify(user.password, input.password);
+		if (!isValid) {
+			throw new TRPCError({
+				code: "BAD_REQUEST",
+				message: "invalid password",
+			});
+		}
+		await prisma.user.update({
 			where: {
 				email: input.email,
 			},
@@ -51,8 +57,6 @@ export const generatePvc = createRouter().query("pvc", {
 
 		return {
 			message: "pvc generated",
-			email: pvcdata.email,
-			pvc: pvcdata.pvc,
 		};
 	},
 });

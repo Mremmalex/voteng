@@ -12,21 +12,19 @@ const Home: NextPage = () => {
 
 	const router = useRouter();
 
-	const registerMutation = trpc.useMutation(["auth/register"]);
+	const registerMutation = trpc.useMutation(["auth.register"]);
 
-	const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+	const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		registerMutation.mutate({
+		await registerMutation.mutate({
 			fullname,
 			email,
 			password,
 		});
-
-		if (registerMutation.isSuccess) {
-			return router.push("/generate/pvc");
-		}
 	};
-
+	if (registerMutation.isSuccess) {
+		router.push("/generate_pvc");
+	}
 	return (
 		<>
 			<div className="flex justify-center w-[80%] mx-auto place-items-center ">
@@ -44,14 +42,16 @@ const Home: NextPage = () => {
 						<h3 className="text-center text-white font-bold pt-3">register</h3>
 						{registerMutation.error && (
 							<div className=" text-red-600 px-4 py-4">
-								{registerMutation.error?.message}
+								{registerMutation.error.message}
 							</div>
 						)}
+
 						<form onSubmit={handleSubmit}>
 							<div className=" py-5 px-4">
 								<div className="flex flex-col">
 									<label htmlFor="fullname">Fullname</label>
 									<input
+										// required
 										value={fullname}
 										onChange={(e) => setFullname(e.currentTarget.value)}
 										placeholder="eg. John Doe"
@@ -64,6 +64,7 @@ const Home: NextPage = () => {
 								<div className="flex flex-col">
 									<label htmlFor="email">email</label>
 									<input
+										// required
 										value={email}
 										onChange={(e) => setEmail(e.currentTarget.value)}
 										placeholder="eg. johndoe@example.com"
@@ -76,6 +77,7 @@ const Home: NextPage = () => {
 								<div className="flex flex-col mt-1">
 									<label htmlFor="password">password</label>
 									<input
+										// required
 										onChange={(e) => setPassword(e.currentTarget.value)}
 										placeholder="password"
 										className="rounded-md placeholder:text-gray-400 px-2 py-2 border-gray-600 block"
