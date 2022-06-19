@@ -1,12 +1,13 @@
 import { createRouter } from "../../../createRouter";
-import { z } from "zod";
+import { z, ZodError } from "zod";
 import { Prisma } from "@prisma/client";
 import { prisma } from "@/server/prisma";
 import { TRPCError } from "@trpc/server";
 import argon2 from "argon2";
-import { resolve } from "path";
+import { customAlphabet } from "nanoid";
 import { signJwtToken } from "@/utils/jwtToken";
-import { TRUE } from "sass";
+
+const tempPvc = customAlphabet("33DDnnnddkd33499897", 10);
 
 const defaultUserSelect = Prisma.validator<Prisma.UserSelect>()({
 	id: true,
@@ -22,15 +23,10 @@ const defaultUserSelect = Prisma.validator<Prisma.UserSelect>()({
 export const authRouter = createRouter()
 	.mutation("register", {
 		input: z.object({
-			fullname: z.string({ required_error: "fullname is required" }),
 			pvc: z.string().optional(),
-			email: z
-				.string({ required_error: "email is required" })
-				.email("Email must be a valid email address"),
-			password: z
-				.string({ required_error: "password word must be provided" })
-				.min(6, "min password length 6")
-				.max(20, "max password length 20"),
+			email: z.string().email(),
+			fullname: z.string(),
+			password: z.string(),
 		}),
 		async resolve({ input }) {
 			const userDoesExist = await prisma.user.findUnique({
@@ -46,7 +42,7 @@ export const authRouter = createRouter()
 			const user = await prisma.user.create({
 				data: {
 					fullname: input.fullname,
-					pvc: input.pvc!,
+					pvc: tempPvc(),
 					email: input.email,
 					password: hashedPw,
 				},

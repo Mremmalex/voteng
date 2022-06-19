@@ -21,6 +21,7 @@ specifiers:
   prisma: ^3.15.2
   react: 18.1.0
   react-dom: 18.1.0
+  react-icons: ^4.4.0
   react-is: ^18.1.0
   react-query: ^3.39.1
   sass: ^1.52.3
@@ -43,6 +44,7 @@ dependencies:
   postcss: 8.4.14
   react: 18.1.0
   react-dom: 18.1.0_react@18.1.0
+  react-icons: 4.4.0_react@18.1.0
   react-is: 18.1.0
   react-query: 3.39.1_ef5jwxihqo6n7gxfmzogljlgcm
   sass: 1.52.3
@@ -2173,6 +2175,14 @@ packages:
       loose-envify: 1.4.0
       react: 18.1.0
       scheduler: 0.22.0
+
+  /react-icons/4.4.0_react@18.1.0:
+    resolution: {integrity: sha512-fSbvHeVYo/B5/L4VhB7sBA1i2tS8MkT0Hb9t2H1AVPkwGfVHLJCqyr2Py9dKMxsyM63Eng1GkdZfbWj+Fmv8Rg==}
+    peerDependencies:
+      react: '*'
+    dependencies:
+      react: 18.1.0
+    dev: false
 
   /react-is/16.13.1:
     resolution: {integrity: sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==}
