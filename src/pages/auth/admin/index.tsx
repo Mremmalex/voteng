@@ -1,14 +1,14 @@
 import { Navbar } from "@/components";
-import LayoutApp from "@/components/layout-app";
+import LayoutAdmin from "@/components/layout-admin";
 import React from "react";
 
 function Admin() {
 	return (
 		<div>
 			<Navbar />
-			<LayoutApp>
+			<LayoutAdmin>
 				<h1>hello</h1>
-			</LayoutApp>
+			</LayoutAdmin>
 		</div>
 	);
 }
