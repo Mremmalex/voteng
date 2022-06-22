@@ -1,7 +1,14 @@
 import React from "react";
+import Navbar from "./Ui/Navbar";
+import UserSidebar from "./Ui/UserSidebar";
 
 function LayoutUser() {
-	return <div>LayoutUser</div>;
+	return(
+		<>
+			<Navbar/>
+			<UserSidebar/>	
+		</>
+	)
 }
 
 export default LayoutUser;
