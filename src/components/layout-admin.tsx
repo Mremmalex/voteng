@@ -4,7 +4,7 @@ import Sidebar from "./Ui/Sidebar";
 interface Props {
 	children: React.ReactNode;
 }
-function LayoutApp({ children }: Props) {
+function LayoutAdmin({ children }: Props) {
 	return (
 		<div className="flex w-[90%] mx-auto space-x-4 overflow-hidden">
 			<Sidebar />
@@ -13,4 +13,4 @@ function LayoutApp({ children }: Props) {
 	);
 }
 
-export default LayoutApp;
+export default LayoutAdmin;

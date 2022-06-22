@@ -11,9 +11,9 @@ function Navbar() {
 				<div className="relative flex text-center  place-items-center justify-between  px-10 h-[4em] text-white ">
 					<div className="flex items-center">
 						<span className="pr-4">
-							<IoMdMenu className="w-10 h-10 hover:cursor-pointer" />
+							<IoMdMenu className="w-8 h-10 hover:cursor-pointer" />
 						</span>
-						<h3 className="font-bold hover:cursor-pointer">Logo</h3>
+						<h3 className="font-bold hover:cursor-pointer">voteng</h3>
 					</div>
 					{/* <nav className="">
 						<ul className="hidden md:flex justify-between ">
