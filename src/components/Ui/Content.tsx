@@ -5,7 +5,7 @@ interface Props {
 }
 function Content({ children }: Props) {
 	return (
-		<div className="flex-2 overflow-y-auto h-[40em] lg:h-[50em]">
+		<div className="md:flex-2 overflow-y-auto h-[40em] lg:h-[50em]">
 			{children}
 			<h2>body</h2>
 			<p>
