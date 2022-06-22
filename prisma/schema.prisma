@@ -34,11 +34,6 @@ model Vote {
   // categoryId   Int
   createdAt    DateTime
   updatedAt    DateTime   @updatedAt
-
-  Category   Category? @relation(fields: [categoryId], references: [id])
-  categoryId Int?
-  Election   Election? @relation(fields: [electionId], references: [id])
-  electionId Int?
 }
 
 model Contestant {
@@ -61,7 +56,6 @@ model Category {
   contestants Contestant[]
   createdAt   DateTime
   updatedAt   DateTime     @updatedAt
-  Vote        Vote[]
   Election    Election[]
 }
 
@@ -71,8 +65,8 @@ model Election {
   category    Category     @relation(fields: [categoryId], references: [id])
   categoryId  Int
   year        Int
+  status      String       @default("InProgress")
   contestants Contestant[]
-  Vote        Vote[]
   createdAt   DateTime
   updatedAt   DateTime     @updatedAt
 }

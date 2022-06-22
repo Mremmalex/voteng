@@ -1,12 +1,19 @@
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
 import { MdDashboard, MdHowToVote, MdModeEdit } from "react-icons/md";
 import MenuItem from "../shared/MenuItem";
 
-function Sidebar() {
+interface Props {
+	isOpen: boolean;
+}
+
+function Sidebar({ isOpen }: Props) {
 	return (
-		<aside className="border-r-[1px] pt-2 border-gray-500">
-			<div className="sticky flex-1 w-[20em] h-[40em]  ">
+		<aside
+			className={`${
+				isOpen ? "hidden" : "absolute"
+			} z-10 md:z-0 bg-white shadow-md md:shadow-none  md:flex md:border-r-[1px] pt-2 border-gray-500 h-[40em] lg:h-[50em`}>
+			<div className="flex-1 w-[20em] h-[40em] overflow-y-auto overflow-hidden">
 				<ul className="flex flex-col place-items-center py-10">
 					<MenuItem herf="/auth/admin" title="Dashboard" Icon={MdDashboard} />
 					<MenuItem

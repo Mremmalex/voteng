@@ -2,16 +2,21 @@ import Link from "next/link";
 import React, { useState } from "react";
 import { IoMdMenu } from "react-icons/io";
 
-function Navbar() {
-	const [isOpen, setIsOpen] = useState(true);
+interface Props {
+	toggleMenu: () => void;
+}
 
+function Navbar({ toggleMenu }: Props) {
 	return (
 		<>
 			<header className="bg-green-900 font-white">
 				<div className="relative flex text-center  place-items-center justify-between  px-10 h-[4em] text-white ">
 					<div className="flex items-center">
 						<span className="pr-4">
-							<IoMdMenu className="w-8 h-10 hover:cursor-pointer" />
+							<IoMdMenu
+								onClick={toggleMenu}
+								className="md:hidden w-8 h-10 hover:cursor-pointer"
+							/>
 						</span>
 						<h3 className="font-bold hover:cursor-pointer">voteng</h3>
 					</div>
