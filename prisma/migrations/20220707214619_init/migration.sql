@@ -6,9 +6,9 @@ CREATE TABLE "User" (
     "id" SERIAL NOT NULL,
     "fullname" TEXT NOT NULL,
     "email" TEXT NOT NULL,
-    "pvc" TEXT NOT NULL DEFAULT E'',
+    "pvc" TEXT NOT NULL,
     "password" TEXT NOT NULL,
-    "role" "Role" NOT NULL DEFAULT E'USER',
+    "role" "Role" NOT NULL DEFAULT 'USER',
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -22,8 +22,6 @@ CREATE TABLE "Vote" (
     "contestantId" INTEGER NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL,
     "updatedAt" TIMESTAMP(3) NOT NULL,
-    "categoryId" INTEGER,
-    "electionId" INTEGER,
 
     CONSTRAINT "Vote_pkey" PRIMARY KEY ("id")
 );
@@ -58,6 +56,7 @@ CREATE TABLE "Election" (
     "name" TEXT NOT NULL,
     "categoryId" INTEGER NOT NULL,
     "year" INTEGER NOT NULL,
+    "status" TEXT NOT NULL DEFAULT 'InProgress',
     "createdAt" TIMESTAMP(3) NOT NULL,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -75,12 +74,6 @@ ALTER TABLE "Vote" ADD CONSTRAINT "Vote_voterId_fkey" FOREIGN KEY ("voterId") RE
 
 -- AddForeignKey
 ALTER TABLE "Vote" ADD CONSTRAINT "Vote_contestantId_fkey" FOREIGN KEY ("contestantId") REFERENCES "Contestant"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "Vote" ADD CONSTRAINT "Vote_categoryId_fkey" FOREIGN KEY ("categoryId") REFERENCES "Category"("id") ON DELETE SET NULL ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "Vote" ADD CONSTRAINT "Vote_electionId_fkey" FOREIGN KEY ("electionId") REFERENCES "Election"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Contestant" ADD CONSTRAINT "Contestant_categoryId_fkey" FOREIGN KEY ("categoryId") REFERENCES "Category"("id") ON DELETE SET NULL ON UPDATE CASCADE;
